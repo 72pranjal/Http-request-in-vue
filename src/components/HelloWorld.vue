@@ -4,21 +4,21 @@
 
     <label for="Name">Full Name</label><br>
     <input type="text" placeholder="enter your full name" v-model="user.fullname">
-     <br>
-     <br>
+    <br>
+    <br>
     <label for="email">Email Address</label><br>
     <input type="text" placeholder="enter your email address" v-model="user.email">
     <br>
-     <br>
+    <br>
     <button @click="sendData()">Submit</button>
     <br>
-     <br>
-     <button @click="getUserData()">Get user data</button>
-     <div>
+    <br>
+    <button @click="getUserData()">Get user data</button>
+    <div>
       <ul>
         <li v-for="(u, index) in userData" :key="index"> {{ u.fullname }} | {{ u.email }} </li>
       </ul>
-     </div>
+    </div>
   </div>
 </template>
 
@@ -27,7 +27,7 @@ export default {
   name: 'HelloWorld',
   data() {
     return {
-      user : {
+      user: {
         fullname: '',
         email: ''
       },
@@ -37,24 +37,33 @@ export default {
   methods: {
     sendData() {
       this.$http.post("https://http-request-2addb-default-rtdb.europe-west1.firebasedatabase.app/data.json", this.user)
-           .then(response => {
-            console.log(response);
-           })
-           .catch(e => {
-            console.log(e)
-           })
+        .then(response => {
+          console.log(response);
+        })
+        .catch(e => {
+          console.log(e)
+        })
     },
     getUserData() {
       console.log("called")
-      this.$http.get("https://http-request-2addb-default-rtdb.europe-west1.firebasedatabase.app/data.json")
-      .then((data) =>{
-        let newArray = [];
-        for(let key in data.body){
-          newArray.push(data.body[key])
+      // this.$http.get("https://http-request-2addb-default-rtdb.europe-west1.firebasedatabase.app/data.json")
+      // .then((data) =>{
+      //   let newArray = [];
+      //   for(let key in data.body){
+      //     newArray.push(data.body[key])
+      //   }
+      //   this.userData = newArray;
+      // })
+      fetch("https://http-request-2addb-default-rtdb.europe-west1.firebasedatabase.app/data.json")
+        .then((response) => response.json())
+        .then((data) => {
+          let newArray = [];
+        for(let key in data){
+          newArray.push(data[key])
         }
-
         this.userData = newArray;
-      })
+        });
+        
     }
   }
 }

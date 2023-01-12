@@ -54,16 +54,28 @@ export default {
       //   }
       //   this.userData = newArray;
       // })
-      fetch("https://http-request-2addb-default-rtdb.europe-west1.firebasedatabase.app/data.json")
-        .then((response) => response.json())
-        .then((data) => {
-          let newArray = [];
-        for(let key in data){
-          newArray.push(data[key])
-        }
-        this.userData = newArray;
-        });
-        
+      // fetch("https://http-request-2addb-default-rtdb.europe-west1.firebasedatabase.app/data.json")
+      //   .then((response) => response.json())
+      //   .then((data) => {
+      //     let newArray = [];
+      //   for(let key in data){
+      //     newArray.push(data[key])
+      //   }
+      //   this.userData = newArray;
+      //   });
+        const axios  =require("axios")
+        axios.get("https://http-request-2addb-default-rtdb.europe-west1.firebasedatabase.app/data.json")
+        .then(response => {
+          console.log(response.data)
+          let array = [];
+          for(let key in response.data){
+            array.push(response.data[key])
+          }
+          this.userData = array;
+        })
+        .catch(error => {
+          console.log(error)
+        })
     }
   }
 }
